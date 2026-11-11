@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BetterHalf 🌸 Your Whimsical Daily Planner & Voice Companion</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Floating Soft Pastel Orbs -->
+    <div class="bg-ambient-stars">
+        <div class="floating-orb orb-1"></div>
+        <div class="floating-orb orb-2"></div>
+        <div class="floating-orb orb-3"></div>
+    </div>
+
+    <!-- Celebration Sparkle Particle Canvas -->
+    <canvas id="sparkle-canvas"></canvas>
+
+    <!-- XP Floating Toast Alerts Container -->
+    <div id="xp-toast-container"></div>
+
+    <div class="app-container">
+        <!-- Top Bar -->
+        <header class="header-top">
+            <div class="brand-wrapper">
+                <div class="brand-icon-bubble">🐰</div>
+                <div>
+                    <h1 class="brand-title">BetterHalf</h1>
+                    <p class="brand-subtitle">Your Whimsical Daily Planner & Voice Buddy 🌸</p>
+                </div>
+            </div>
+
+            <div class="header-actions">
+                <!-- Duolingo Streak Pill -->
+                <div class="streak-pill" id="header-streak-badge" title="Duolingo Magic Streak: Complete daily tasks to build your streak!">
+                    <span class="flame-icon">🔥</span>
+                    <span id="header-streak-count">0</span>
+                    <span style="font-size: 11px; text-transform: uppercase;">Days</span>
+                </div>
+
+                <!-- Stardust XP Pill -->
+                <div class="stardust-pill" title="Stardust XP: Earned from healthy habits & tasks">
+                    <span>✨</span>
+                    <span id="header-stardust-count">0</span>
+                </div>
+
+                <!-- Cute Voice Toggle Button -->
+                <button class="btn-chip" id="btn-voice-toggle" style="background: #fff0f5; border: 1.5px solid #ffccd9; font-weight: 700; color: #d81b60;" title="Toggle Cute Voice Speech">
+                    🔊 Cute Voice: On
+                </button>
+
+                <!-- Rain Sound Toggle -->
+                <button class="btn-chip" id="btn-ambient-toggle" title="Toggle relaxing rain sound">
+                    🌧️ Rain Ambience
+                </button>
+
+                <!-- Sound Mute/Unmute -->
+                <button class="btn-icon-soft" id="btn-sound-toggle" title="Toggle Bell Chimes">
+                    🔔
+                </button>
+            </div>
+        </header>
+
+        <!-- Navigation Tabs -->
+        <nav class="nav-tabs-wrapper">
+            <button class="nav-tab active" data-tab="day-planner">
+                <span>📅</span>
+                <span>Day Planner</span>
+            </button>
+            <button class="nav-tab" data-tab="week-tracker">
+                <span>🌸</span>
+                <span>Week Tracker</span>
+            </button>
+            <button class="nav-tab" data-tab="periods-tracker">
+                <span>🌙</span>
+                <span>Moon Cycle</span>
+            </button>
+            <button class="nav-tab" data-tab="sanctuary-goals">
+                <span>🌟</span>
+                <span>Goals I Wish I Liked</span>
+            </button>
+            <button class="nav-tab" data-tab="astrology-compartment">
+                <span>🔮</span>
+                <span>Today's Star Vibe</span>
+            </button>
+        </nav>
+
+        <!-- Main Layout -->
+        <div class="dashboard-grid">
+            <!-- Sidebar: Voice Companion + Cute Widgets -->
+            <aside class="dashboard-sidebar">
+                <!-- AI Voice Companion Card: Luna / BetterHalf Buddy -->
+                <div class="whimsy-card agent-companion-card">
+                    <div style="font-size: 11.5px; font-weight: 800; color: #ff5e82; text-transform: uppercase; letter-spacing: 0.8px;">
+                        Cute Voice Companion 🐰
+                    </div>
+
+                    <div class="companion-avatar-area" id="companion-avatar" title="Tap to pet & hear me talk! 💕">
+                        <!-- SVG Avatar injected by app.js -->
+                    </div>
+
+                    <div style="font-size: 11px; color: #9f8ea8; margin-top: -4px; margin-bottom: 12px;">
+                        ✨ Tap me for gentle pats and sweet love!
+                    </div>
+
+                    <!-- Speech Bubble with Voice Controls -->
+                    <div class="companion-bubble-speech" id="companion-speech-bubble">
+                        <div id="companion-speech-text">
+                            Hello my favorite friend! ✨ Tap the 🎙️ mic button or prompt chips below to speak with me!
+                        </div>
+                        <div class="voice-action-bar">
+                            <button class="btn-speech-voice" id="btn-listen-speech" title="Hear Luna speak this out loud">
+                                <span>▶️</span> <span>Hear Voice</span>
+                            </button>
+                            <button class="btn-speech-voice" id="btn-voice-mode" style="background: #f3e8ff; border: 1.5px solid #d8b4fe; color: #7e22ce;" title="Switch between Spoken English and Bunny Chatter">
+                                <span>🗣️</span> <span>Mode: Spoken English</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Two-Way Microphone Button -->
+                    <button class="btn-mic-talk" id="btn-mic-talk" title="Tap to talk to BetterHalf with your voice!">
+                        <span style="font-size: 18px;">🎙️</span>
+                        <span id="mic-status-label">Tap to Speak with Voice</span>
+                    </button>
+
+                    <!-- Two-Way Live Conversation Stream -->
+                    <div class="companion-chat-stream" id="companion-chat-stream"></div>
+
+                    <!-- Quick Prompt Chips in Simple English -->
+                    <div class="companion-quick-actions">
+                        <button class="btn-chip btn-chip-prompt" data-prompt="What are my goals today?">
+                            📋 Today's Goals
+                        </button>
+                        <button class="btn-chip btn-chip-prompt" data-prompt="Tell me today's star vibe and lucky match">
+                            🔮 Today's Star Vibe
+                        </button>
+                        <button class="btn-chip btn-chip-prompt" data-prompt="I am feeling overwhelmed 🥺">
+                            🥺 I'm Overwhelmed
+                        </button>
+                        <button class="btn-chip btn-chip-prompt" data-prompt="Give me a 5-minute easy break idea">
+                            🫖 5-Min Break
+                        </button>
+                        <button class="btn-chip btn-chip-prompt" data-prompt="How is my body rhythm and energy today?">
+                            🌙 Body Check
+                        </button>
+                    </div>
+
+                    <!-- Chat Input Form -->
+                    <form id="companion-chat-form" class="companion-chat-box">
+                        <input type="text" id="companion-user-input" class="cute-input" placeholder="Chat with Luna (e.g. 'Add task Buy tea', 'Hi', 'Streak')..." autocomplete="off" />
+                        <button type="submit" id="companion-btn-send" class="btn-send" title="Send message to Luna">💌</button>
+                    </form>
+                </div>
+
+                <!-- Hydration Sprout Widget -->
+                <div class="whimsy-card" style="padding: 16px 18px;">
+                    <div class="card-header-cute" style="margin-bottom: 8px;">
+                        <span class="card-title-cute" style="font-size: 15.5px;">
+                            <span>💧</span>
+                            <span>Water Sprout</span>
+                        </span>
+                        <span id="hydration-count-label" style="font-size: 12px; font-weight: 800; color: #0288d1;">0 / 8 Cups</span>
+                    </div>
+                    <div class="sprout-progress-area" id="hydration-drops-row" style="justify-content: space-between; margin-top: 6px;">
+                        <!-- Injected by app.js -->
+                    </div>
+                </div>
+
+                <!-- Daily Cosmic Fortune Cookie -->
+                <div class="whimsy-card" style="text-align: center; padding: 18px;" id="cookie-card-box">
+                    <!-- Injected by app.js -->
+                </div>
+            </aside>
+
+            <!-- Main Content Area -->
+            <main class="dashboard-main-content">
+                <!-- VIEW 1: DAY PLANNER -->
+                <section class="view-panel" id="view-day-planner">
+                    <div class="whimsy-card" style="padding: 20px 22px;">
+                        <div class="card-header-cute" style="margin-bottom: 12px;">
+                            <div>
+                                <span style="font-size: 11.5px; font-weight: 800; color: #9b72cf; text-transform: uppercase;">Today's Schedule</span>
+                                <h2 id="planner-date-title" style="font-family: 'Fredoka', cursive; font-size: 24px; color: var(--text-primary); margin-top: 2px;">
+                                    Today
+                                </h2>
+                            </div>
+                            <button class="btn-cute-primary" id="btn-open-task-modal">
+                                <span>➕</span>
+                                <span>Add Easy Task</span>
+                            </button>
+                        </div>
+
+                        <!-- Main Goal Highlight -->
+                        <div class="highlight-banner">
+                            <div class="highlight-content">
+                                <span class="highlight-star">⭐</span>
+                                <div>
+                                    <div class="highlight-text-title">Today's Main Goal</div>
+                                    <div class="highlight-text-val" id="highlight-display-text">Tap below to add your main goal for today ⭐</div>
+                                </div>
+                            </div>
+                            <span style="font-size: 11.5px; font-weight: 700; color: #b78103; background: #fff2c6; padding: 4px 12px; border-radius: 20px;">
+                                Main Focus
+                            </span>
+                        </div>
+
+                        <!-- Time Blocks in Simple English -->
+                        <div class="planner-time-blocks">
+                            <!-- Morning -->
+                            <div class="time-block-group">
+                                <div class="time-block-title">
+                                    <span>☀️</span>
+                                    <span>Morning (06:00 - 12:00)</span>
+                                </div>
+                                <div class="task-list" id="tasks-morning"></div>
+                            </div>
+
+                            <!-- Afternoon -->
+                            <div class="time-block-group">
+                                <div class="time-block-title">
+                                    <span>🌸</span>
+                                    <span>Afternoon (12:00 - 17:00)</span>
+                                </div>
+                                <div class="task-list" id="tasks-afternoon"></div>
+                            </div>
+
+                            <!-- Evening -->
+                            <div class="time-block-group">
+                                <div class="time-block-title">
+                                    <span>🌆</span>
+                                    <span>Evening (17:00 - 21:00)</span>
+                                </div>
+                                <div class="task-list" id="tasks-evening"></div>
+                            </div>
+
+                            <!-- Bedtime -->
+                            <div class="time-block-group">
+                                <div class="time-block-title">
+                                    <span>🌙</span>
+                                    <span>Bedtime & Rest (21:00+)</span>
+                                </div>
+                                <div class="task-list" id="tasks-night"></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- VIEW 2: WEEK TRACKER -->
+                <section class="view-panel" id="view-week-tracker" style="display: none;">
+                    <div class="whimsy-card">
+                        <div class="card-header-cute">
+                            <div>
+                                <span style="font-size: 11.5px; font-weight: 800; color: #ff8da9; text-transform: uppercase;">7-Day View</span>
+                                <h2 style="font-family: 'Fredoka', cursive; font-size: 24px; color: var(--text-primary);">
+                                    Good Habits Matrix 🌸
+                                </h2>
+                            </div>
+                            <div style="font-size: 12.5px; font-weight: 700; color: #9b72cf;" id="weekly-stats-text">
+                                Loading habit blooms...
+                            </div>
+                        </div>
+
+                        <!-- Progress Bar -->
+                        <div style="background: #f7e6f2; height: 10px; border-radius: 20px; overflow: hidden; margin-bottom: 20px;">
+                            <div id="weekly-progress-fill" style="background: linear-gradient(90deg, #ff8da9, #9b72cf); height: 100%; width: 50%; transition: width 0.5s ease;"></div>
+                        </div>
+
+                        <div class="week-grid-container" id="week-matrix-container"></div>
+
+                        <!-- Daily Mood Selector -->
+                        <div style="margin-top: 28px; border-top: 1.5px dashed var(--pastel-card-border); padding-top: 20px;">
+                            <h3 style="font-family: 'Fredoka', cursive; font-size: 17px; margin-bottom: 10px; display: flex; align-items: center; gap: 7px;">
+                                <span>🎨</span>
+                                <span>How Are You Feeling Today?</span>
+                            </h3>
+                            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                                <button class="btn-chip" onclick="window.weekTracker.setMood(new Date().toISOString().split('T')[0], 'radiant'); BetterHalfApp.renderWeekTrackerView();">☀️ Super Happy</button>
+                                <button class="btn-chip" onclick="window.weekTracker.setMood(new Date().toISOString().split('T')[0], 'blooming'); BetterHalfApp.renderWeekTrackerView();">🌸 Pretty Good</button>
+                                <button class="btn-chip" onclick="window.weekTracker.setMood(new Date().toISOString().split('T')[0], 'cozy'); BetterHalfApp.renderWeekTrackerView();">☁️ Just Cozy</button>
+                                <button class="btn-chip" onclick="window.weekTracker.setMood(new Date().toISOString().split('T')[0], 'tender'); BetterHalfApp.renderWeekTrackerView();">🌧️ A Little Tired</button>
+                                <button class="btn-chip" onclick="window.weekTracker.setMood(new Date().toISOString().split('T')[0], 'dreamy'); BetterHalfApp.renderWeekTrackerView();">🌙 Sleepy & Calm</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- VIEW 3: PERIODS TRACKER -->
+                <section class="view-panel" id="view-periods-tracker" style="display: none;">
+                    <div class="whimsy-card">
+                        <div class="card-header-cute">
+                            <div>
+                                <span style="font-size: 11.5px; font-weight: 800; color: #ff5e82; text-transform: uppercase;">Body Rhythm Companion</span>
+                                <h2 style="font-family: 'Fredoka', cursive; font-size: 24px; color: var(--text-primary);">
+                                    Moon Cycle Dial 🌙
+                                </h2>
+                            </div>
+                            <span id="cycle-countdown-label" style="font-size: 12.5px; font-weight: 700; color: #7b1fa2; background: #f6ecfc; padding: 5px 13px; border-radius: 30px;">
+                                Next period in ~14 days
+                            </span>
+                        </div>
+
+                        <!-- Moon Dial SVG -->
+                        <div class="cycle-ring-wrapper">
+                            <svg class="cycle-ring-svg" viewBox="0 0 180 180">
+                                <defs>
+                                    <linearGradient id="cycleGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" stop-color="#ff8da9" />
+                                        <stop offset="50%" stop-color="#fed166" />
+                                        <stop offset="100%" stop-color="#9b72cf" />
+                                    </linearGradient>
+                                </defs>
+                                <circle class="cycle-ring-bg" cx="90" cy="90" r="75" />
+                                <circle class="cycle-ring-progress" id="cycle-ring-progress-circle" cx="90" cy="90" r="75" stroke-dasharray="471" stroke-dashoffset="235" />
+                            </svg>
+                            <div class="cycle-center-info">
+                                <div class="cycle-day-sub">Cycle Day</div>
+                                <div class="cycle-day-big" id="cycle-day-number">14</div>
+                                <div style="font-size: 11px; font-weight: 700; color: #746385;">of 28 Days</div>
+                            </div>
+                        </div>
+
+                        <div style="text-align: center; margin-bottom: 22px;">
+                            <h3 id="cycle-phase-name" style="font-family: 'Fredoka', cursive; font-size: 19px; color: #ff5e82;">
+                                Super Glowing Phase 🌸☀️
+                            </h3>
+                            <p style="font-size: 12.5px; color: var(--text-secondary); max-width: 460px; margin: 4px auto 0 auto;">
+                                Your natural body rhythm is wise and beautiful. Here is your self-care advice for today:
+                            </p>
+                        </div>
+
+                        <!-- 3 Care Cards in Simple English -->
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 14px; margin-bottom: 24px;">
+                            <div style="background: #fff0f5; border: 1.5px solid #ffd4e5; border-radius: 16px; padding: 14px;">
+                                <div style="font-size: 11.5px; font-weight: 800; color: #d81b60; margin-bottom: 3px;">🕯️ What To Focus On</div>
+                                <div id="cycle-tip-focus" style="font-size: 13px; font-weight: 600; color: #463b52;">Hanging out with friends & feeling confident</div>
+                            </div>
+                            <div style="background: #f0fdf4; border: 1.5px solid #bbf7d0; border-radius: 16px; padding: 14px;">
+                                <div style="font-size: 11.5px; font-weight: 800; color: #15803d; margin-bottom: 3px;">🥗 Yummy Food Tip</div>
+                                <div id="cycle-tip-nutrition" style="font-size: 13px; font-weight: 600; color: #463b52;">Fresh colorful fruit, avocado & warm tea</div>
+                            </div>
+                            <div style="background: #f6f3ff; border: 1.5px solid #ddd6fe; border-radius: 16px; padding: 14px;">
+                                <div style="font-size: 11.5px; font-weight: 800; color: #7e22ce; margin-bottom: 3px;">🧘 Easy Exercise</div>
+                                <div id="cycle-tip-movement" style="font-size: 13px; font-weight: 600; color: #463b52;">Fun music dance break, gentle stretching</div>
+                            </div>
+                        </div>
+
+                        <!-- Flow Check -->
+                        <div style="border-top: 1.5px dashed var(--pastel-card-border); padding-top: 18px;">
+                            <div style="font-weight: 700; font-size: 13.5px; margin-bottom: 8px;">Check Today's Flow:</div>
+                            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                                <button class="btn-chip btn-flow-select" data-flow="none">⚪ None</button>
+                                <button class="btn-chip btn-flow-select" data-flow="spotting">🌸 Spotting</button>
+                                <button class="btn-chip btn-flow-select" data-flow="light">🩸 Light</button>
+                                <button class="btn-chip btn-flow-select" data-flow="medium">💖 Medium</button>
+                                <button class="btn-chip btn-flow-select" data-flow="heavy">🌺 Heavy Flow</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- VIEW 4: GOALS I WISH I LIKED -->
+                <section class="view-panel" id="view-sanctuary-goals" style="display: none;">
+                    <div class="whimsy-card">
+                        <div class="card-header-cute">
+                            <div>
+                                <span style="font-size: 11.5px; font-weight: 800; color: #9b72cf; text-transform: uppercase;">Zero Guilt Allowed!</span>
+                                <h2 style="font-family: 'Fredoka', cursive; font-size: 24px; color: var(--text-primary);">
+                                    Goals I Wish I Liked 🌟
+                                </h2>
+                            </div>
+                            <button class="btn-cute-primary" id="btn-open-goal-modal">
+                                <span>🌱</span>
+                                <span>Add a Wish</span>
+                            </button>
+                        </div>
+
+                        <!-- Simple English Philosophy -->
+                        <div class="sanctuary-intro-banner">
+                            <h4 style="font-family: 'Fredoka', cursive; font-size: 15.5px; color: #6b3bb8; margin-bottom: 4px;">
+                                🕊️ A Gentle Place With No Pressure!
+                            </h4>
+                            <p style="font-size: 13px; color: var(--text-secondary);">
+                                Have you ever felt bad for not waking up at 5:00 AM, or not reading thick business books? Put them here!
+                                These are goals you feel you <strong>should</strong> want, but don't actually enjoy. Here, there are no red alarms or guilt.
+                                You can try an easy <strong>30-second baby step</strong> if you want, or <strong>release them with love</strong> to earn peace points!
+                            </p>
+                        </div>
+
+                        <div class="sanctuary-goals-grid" id="sanctuary-goals-grid"></div>
+                    </div>
+                </section>
+
+                <!-- VIEW 5: COSMIC COMPARTMENT -->
+                <section class="view-panel" id="view-astrology-compartment" style="display: none;">
+                    <div class="whimsy-card">
+                        <div class="card-header-cute">
+                            <div>
+                                <span style="font-size: 11.5px; font-weight: 800; color: #9b72cf; text-transform: uppercase;">Star Whispers</span>
+                                <h2 style="font-family: 'Fredoka', cursive; font-size: 24px; color: var(--text-primary);">
+                                    Today's Star Vibe 🔮
+                                </h2>
+                            </div>
+                        </div>
+
+                        <!-- Zodiac Sign Pills -->
+                        <div style="margin-bottom: 18px;">
+                            <div style="font-size: 12px; font-weight: 700; color: var(--text-secondary); margin-bottom: 6px;">Choose Your Sign:</div>
+                            <div style="display: flex; gap: 6px; flex-wrap: wrap;" id="astrology-sign-selector"></div>
+                        </div>
+
+                        <!-- Sky Mood & Best Match -->
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px;">
+                            <div style="background: linear-gradient(135deg, #fdf2ff 0%, #f4e8ff 100%); border: 1.5px solid #ecd4ff; border-radius: 18px; padding: 16px;">
+                                <div style="font-size: 11.5px; font-weight: 800; color: #7e22ce; margin-bottom: 4px;">🪐 Today's Sky Mood</div>
+                                <div id="astro-transit-text" style="font-size: 13px; font-weight: 600; color: #431407; line-height: 1.5;">
+                                    The Moon is soft and peaceful today, bringing calm thoughts and creative smiles.
+                                </div>
+                                <div style="margin-top: 10px; font-size: 11.5px; color: #6b21a8; font-weight: 700;" id="astro-lucky-charm">
+                                    Lucky Item: Purple Amethyst 🔮
+                                </div>
+                            </div>
+
+                            <div style="background: linear-gradient(135deg, #fff8ee 0%, #ffeed9 100%); border: 1.5px solid #fedbbb; border-radius: 18px; padding: 16px;">
+                                <div style="font-size: 11.5px; font-weight: 800; color: #c2410c; margin-bottom: 4px;">💫 Your Best Star Match Today</div>
+                                <div style="font-size: 15px; font-weight: 700; color: #7c2d12; margin-bottom: 2px;" id="astro-compat-sign">
+                                    Taurus ♉
+                                </div>
+                                <div style="font-size: 11.5px; font-weight: 800; color: #ea580c; margin-bottom: 4px;" id="astro-compat-score">
+                                    96% Match (Best Tea Buddy)
+                                </div>
+                                <div id="astro-compat-advice" style="font-size: 12.5px; color: #431407; font-style: italic;">
+                                    You two understand each other without words today! Great for a sweet chat.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Message Note -->
+                        <div style="background: #fff7fa; border: 1.5px solid var(--pastel-card-border); border-radius: 18px; padding: 16px; margin-bottom: 20px;">
+                            <div style="font-size: 11.5px; font-weight: 800; color: #d81b60; margin-bottom: 4px;">🌸 Daily Message For You</div>
+                            <div id="astro-horoscope-text" style="font-size: 13.5px; line-height: 1.55; color: #463b52; font-style: italic;">
+                                "Sweet Cancer, please don't worry about yesterday. Pick 2 simple goals, have a nice snack, and relax."
+                            </div>
+                        </div>
+
+                        <!-- 3D Card Flip -->
+                        <div style="text-align: center; border-top: 1.5px dashed var(--pastel-card-border); padding-top: 20px;">
+                            <h3 style="font-family: 'Fredoka', cursive; font-size: 19px; color: var(--text-primary); margin-bottom: 4px;">
+                                🃏 Pick Your Lucky Card of the Day
+                            </h3>
+                            <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px;">Tap the card to flip it and hear Luna's voice:</p>
+
+                            <div class="tarot-card-container">
+                                <div class="tarot-card-inner" id="tarot-card-flip">
+                                    <div class="tarot-card-face tarot-card-back">
+                                        <div class="tarot-card-back-pattern">
+                                            <div style="font-size: 32px;">✨</div>
+                                            <div style="font-family: 'Fredoka', cursive; font-size: 14.5px; font-weight: 600;">LUCKY CARD</div>
+                                            <div style="font-size: 11px; opacity: 0.9;">Tap to Flip</div>
+                                        </div>
+                                    </div>
+                                    <div class="tarot-card-face tarot-card-front">
+                                        <div style="font-size: 30px; margin-bottom: 4px;" id="tarot-card-icon">🌱✨</div>
+                                        <h4 id="tarot-card-name" style="font-family: 'Fredoka', cursive; font-size: 16px; color: #ff5e82; margin-bottom: 2px;">
+                                            The Baby Sprout
+                                        </h4>
+                                        <div id="tarot-card-subtitle" style="font-size: 11px; font-weight: 800; color: #9b72cf; margin-bottom: 6px;">
+                                            Fresh Start
+                                        </div>
+                                        <p id="tarot-card-meaning" style="font-size: 12px; line-height: 1.45; color: var(--text-primary); margin-bottom: 8px;">
+                                            Small things grow big! A tiny good habit you do today will make you very happy later.
+                                        </p>
+                                        <div style="background: #fdf2f8; border-radius: 8px; padding: 5px; font-size: 11px; color: #9d174d; font-weight: 700;" id="tarot-card-magic-task">
+                                            Spend 2 quiet minutes thinking about your favorite dream.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button class="btn-chip" id="btn-draw-card" style="margin-top: 8px;">Pick Another Card ✨</button>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <!-- Modal: Add Task -->
+    <div class="modal-overlay" id="modal-add-task">
+        <div class="modal-box">
+            <h3 style="font-family: 'Fredoka', cursive; font-size: 19px; color: #463b52; margin-bottom: 12px;">
+                ➕ Add an Easy Task
+            </h3>
+            <form id="form-add-task">
+                <div style="margin-bottom: 10px;">
+                    <label style="font-size: 12px; font-weight: 700; color: var(--text-secondary); display: block; margin-bottom: 4px;">Task Name</label>
+                    <input type="text" id="input-task-title" class="cute-input" style="width: 100%; border-radius: 12px;" placeholder="e.g. Drink warm fruit tea & sketch..." required />
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
+                    <div>
+                        <label style="font-size: 12px; font-weight: 700; color: var(--text-secondary); display: block; margin-bottom: 4px;">Category</label>
+                        <select id="select-task-category" class="cute-input" style="width: 100%; border-radius: 12px;">
+                            <option value="Self-Care">Self-Care 🛁</option>
+                            <option value="Work/Study">Work / Study 📚</option>
+                            <option value="Creative">Creative Fun 🎨</option>
+                            <option value="Magic Chore">Small Chore 🧹</option>
+                            <option value="Rest">Nap & Rest 🛌</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label style="font-size: 12px; font-weight: 700; color: var(--text-secondary); display: block; margin-bottom: 4px;">When?</label>
+                        <select id="select-task-block" class="cute-input" style="width: 100%; border-radius: 12px;">
+                            <option value="morning">Morning ☀️</option>
+                            <option value="afternoon">Afternoon 🌸</option>
+                            <option value="evening">Evening 🌆</option>
+                            <option value="night">Bedtime 🌙</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px;">
+                    <div>
+                        <label style="font-size: 12px; font-weight: 700; color: var(--text-secondary); display: block; margin-bottom: 4px;">Importance</label>
+                        <select id="select-task-priority" class="cute-input" style="width: 100%; border-radius: 12px;">
+                            <option value="1">⭐ Easy & Gentle</option>
+                            <option value="2" selected>⭐⭐ Normal</option>
+                            <option value="3">⭐⭐⭐ Very Important</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label style="font-size: 12px; font-weight: 700; color: var(--text-secondary); display: block; margin-bottom: 4px;">Minutes</label>
+                        <input type="number" id="input-task-duration" class="cute-input" style="width: 100%; border-radius: 12px;" value="15" min="5" step="5" />
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 16px; display: flex; align-items: center; gap: 7px;">
+                    <input type="checkbox" id="check-task-highlight" style="width: 17px; height: 17px; accent-color: #ff8da9;" />
+                    <label for="check-task-highlight" style="font-size: 12.5px; font-weight: 700; color: #463b52;">Make this my Main Goal for today ⭐</label>
+                </div>
+
+                <div style="display: flex; justify-content: flex-end; gap: 8px;">
+                    <button type="button" class="btn-chip" id="btn-close-task-modal">Cancel</button>
+                    <button type="submit" class="btn-cute-primary">Save Task ✨</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal: Add Wish Goal -->
+    <div class="modal-overlay" id="modal-add-goal">
+        <div class="modal-box">
+            <h3 style="font-family: 'Fredoka', cursive; font-size: 19px; color: #463b52; margin-bottom: 8px;">
+                🌱 Add a Goal You Wish You Liked
+            </h3>
+            <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 12px;">
+                What is something you feel you <em>should</em> do, but don't enjoy? Give it a peaceful home here with no guilt!
+            </p>
+            <form id="form-add-goal">
+                <div style="margin-bottom: 10px;">
+                    <label style="font-size: 12px; font-weight: 700; color: var(--text-secondary); display: block; margin-bottom: 4px;">The Goal</label>
+                    <input type="text" id="input-goal-title" class="cute-input" style="width: 100%; border-radius: 12px;" placeholder="e.g. Wake up at 5:00 AM, Learn 3 languages..." required />
+                </div>
+
+                <div style="margin-bottom: 10px;">
+                    <label style="font-size: 12px; font-weight: 700; color: var(--text-secondary); display: block; margin-bottom: 4px;">Why did you feel you had to do this?</label>
+                    <textarea id="input-goal-reason" class="cute-input" style="width: 100%; border-radius: 12px; height: 55px;" placeholder="e.g. Saw it on social media, but I actually love cozy sleep..."></textarea>
+                </div>
+
+                <div style="margin-bottom: 14px;">
+                    <label style="font-size: 12px; font-weight: 700; color: var(--text-secondary); display: block; margin-bottom: 4px;">An easy 30-second baby step (only if you feel like it):</label>
+                    <input type="text" id="input-goal-micro" class="cute-input" style="width: 100%; border-radius: 12px;" placeholder="e.g. Listen to 1 cute song in that language" />
+                </div>
+
+                <div style="display: flex; justify-content: flex-end; gap: 8px;">
+                    <button type="button" class="btn-chip" id="btn-close-goal-modal">Cancel</button>
+                    <button type="submit" class="btn-cute-primary">Save Without Guilt 🕊️</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/sound.js"></script>
+    <script src="js/astrology.js"></script>
+    <script src="js/periods.js"></script>
+    <script src="js/goals.js"></script>
+    <script src="js/planner.js"></script>
+    <script src="js/tracker.js"></script>
+    <script src="js/widgets.js"></script>
+    <script src="js/agent.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

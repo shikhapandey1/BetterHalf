@@ -1,0 +1,22 @@
+{
+  "name": "betterhalf",
+  "version": "1.0.0",
+  "description": "BetterHalf: A cute, whimsical productivity app with pastel colors, Web Speech cute voice agent, simple English, day planner, week tracker, menstrual cycle dial, guilt-free goals, and Duolingo streaks.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [
+    "productivity",
+    "cute",
+    "whimsical",
+    "voice-agent",
+    "pastel",
+    "planner",
+    "period-tracker",
+    "astrology",
+    "streak"
+  ],
+  "author": "Antigravity",
+  "license": "MIT"
+}
